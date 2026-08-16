@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+    <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8bdcff"/><stop offset="1" stop-color="#dff8ff"/></linearGradient>
+    <filter id="shadow"><feDropShadow dx="0" dy="5" stdDeviation="5" flood-opacity=".18"/></filter>
+    </defs>
+    <rect width="512" height="512" rx="36" fill="url(#sky)"/>
+    <circle cx="85" cy="85" r="30" fill="#fff" opacity=".8"/><circle cx="112" cy="85" r="24" fill="#fff" opacity=".8"/>
+    <path d="M0 420 Q90 370 180 420 Q280 360 370 420 Q440 375 512 420 L512 512 L0 512Z" fill="#8bdc6c"/>
+    <path d="M0 465 Q110 420 220 470 Q350 410 512 470 L512 512 L0 512Z" fill="#68c65b"/><path d="M130 260 Q130 145 256 145 Q382 145 382 260 Q340 230 315 275 Q285 235 256 275 Q220 235 190 275 Q165 230 130 260Z" fill="#6bbdf5" stroke="#3f78a5" stroke-width="8" filter="url(#shadow)"/>
+        <path d="M165 270 Q150 350 175 385 M220 270 Q210 360 230 390 M290 270 Q305 360 285 390 M345 270 Q365 350 340 385" fill="none" stroke="#3f78a5" stroke-width="9"/><circle cx="239.2" cy="199.4" r="4.8999999999999995" fill="#24324a"/>
+        <circle cx="272.8" cy="199.4" r="4.8999999999999995" fill="#24324a"/>
+        <path d="M242.0 219.0 Q256 231.6 270.0 219.0" fill="none" stroke="#24324a" stroke-width="3.5" stroke-linecap="round"/></svg>
