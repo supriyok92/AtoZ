@@ -4,6 +4,7 @@ import streamlit.components.v1 as components
 import json
 import base64
 import mimetypes
+import re
 from pathlib import Path
 
 st.set_page_config(
@@ -41,9 +42,10 @@ def _image_candidates(letter, word):
             names.append(base)
 
     extensions = (".webp", ".png", ".jpg", ".jpeg")
+    base_dir = Path(__file__).resolve().parent
     roots = [
-        Path("db") / "images" / letter,
-        Path("db") / "images" / letter.lower(),
+        base_dir / "db" / "images" / letter,
+        base_dir / "db" / "images" / letter.lower(),
     ]
 
     candidates = []
