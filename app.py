@@ -186,16 +186,16 @@ footer{position:relative;z-index:2;background:linear-gradient(180deg,#b8ed91,#71
 <button class="say blue" id="sayall">🔊 <span>Say All Words</span><span>👧</span></button>
 <div class="speed"><h3>Speaking Speed</h3><div class="speedline"><span>🐢</span><input id="speed" type="range" min=".55" max=".90" value=".72" step=".05"><span>🐰</span></div><div class="speedlabels"><span>Slow</span><b>Normal</b><span>Fast</span></div></div>
 <div class="tip"><b>💡 Tip for Parents</b><br>Encourage your child to say the words out loud for better learning. ❤️</div>
-<div class="voice">🇮🇳 Bengali (India) Voice</div>
+<div class="voice">🇮🇳 Indian English — Meera + Bengali</div>
 <div class="voice-tools">
   <div class="voice-tools-title">🎙️ Voice Setup</div>
   <div class="voice-row">
-    <span>🇮🇳 Bengali (India) — All Speech</span>
+    <span>🇮🇳 Indian English — Meera (en-IN)</span>
     <span id="enStatus" class="voice-status">Checking…</span>
     <button class="voice-test" id="testEn">Test</button>
   </div>
   <div class="voice-row">
-    <span>🇮🇳 Bengali (India)</span>
+    <span>🇮🇳 Bengali (bn-IN)</span>
     <span id="bnStatus" class="voice-status">Checking…</span>
     <button class="voice-test" id="testBn">Test</button>
   </div>
@@ -213,7 +213,7 @@ footer{position:relative;z-index:2;background:linear-gradient(180deg,#b8ed91,#71
 </section>
 </main>
 <nav class="alphabet" id="alphabet"></nav>
-<footer><span class="footerpill">Made with ❤️ for Little Learners</span><span>🇮🇳 Bengali (India) Voice</span></footer>
+<footer><span class="footerpill">Made with ❤️ for Little Learners</span><span>🇮🇳 Indian English — Meera + Bengali</span></footer>
 
 <audio id="audio" preload="auto"></audio>
 <div class="modal" id="modal"><div class="modalbox"><button class="close" id="close">✕</button>
@@ -377,8 +377,8 @@ function speakCard(word,bn){
   const bengali=bn?`মানে ${bn}।`:'';
 
   runQueue([
-    {text:english1,lang:'en-IN',voiceName:'Meera',pauseAfter:350},
-    {text:english2,lang:'en-IN',voiceName:'Meera',pauseAfter:120},
+    {text:english1,lang:'en-IN',voiceName:'Meera',pauseAfter:120},
+    {text:english2,lang:'en-IN',voiceName:'Meera',pauseAfter:50},
     ...(bengali?[{text:bengali,lang:'bn-IN'}]:[])
   ]);
 }
@@ -402,12 +402,19 @@ $('modal').onclick=e=>{if(e.target.id==='modal')$('modal').classList.remove('sho
 // Keep Say Letter and Say All Words as English/Indian-English functions.
 $('sayletter').onclick=()=>{
   clickFx();
-  runQueue([{text:current+' is for '+DATA.starter[current],lang:'bn-IN'}]);
+  runQueue([{
+    text:current+' is for '+DATA.starter[current],
+    lang:'en-IN',
+    voiceName:'Meera'
+  }]);
 };
 $('sayall').onclick=()=>{
   clickFx();
   const ws=DATA.words[current].map(x=>x.word);
-  runQueue([{text:'Letter '+current+' has words like...',lang:'bn-IN'},...ws.map(w=>({text:w,lang:'bn-IN'}))]);
+  runQueue([
+    {text:'Letter '+current+' has words like...',lang:'en-IN',voiceName:'Meera'},
+    ...ws.map(w=>({text:w,lang:'en-IN',voiceName:'Meera'}))
+  ]);
 };
 
 $('surprise').onclick=()=>{
