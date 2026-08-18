@@ -62,22 +62,23 @@ button,input{font-family:inherit}
 .speed{margin-top:18px;border:2px solid #ffc929;border-radius:17px;padding:12px;background:#fffbe8}
 .speed h3{text-align:center;margin:0 0 7px;font-size:16px}.speedline{display:flex;align-items:center;gap:9px}.speedline input{flex:1}.speedlabels{display:flex;justify-content:space-between;font-size:12px}
 .tip{margin-top:14px;border:2px solid #ff9ac6;border-radius:17px;background:#fff3f8;padding:12px;font-size:13px;line-height:1.4}
+.voice-tools{margin-top:10px;padding:10px;border:2px solid #d9c4f5;border-radius:15px;background:#faf7ff}
+.voice-tools-title{font-weight:1000;color:#673ab7;margin-bottom:7px}
+.voice-row{display:grid;grid-template-columns:1fr auto auto;gap:6px;align-items:center;font-size:11px;font-weight:800;margin:5px 0}
+.voice-status{padding:3px 7px;border-radius:10px;background:#eee;color:#666;white-space:nowrap}
+.voice-status.ok{background:#dff5df;color:#16823b}
+.voice-status.warn{background:#fff0d5;color:#a45b00}
+.voice-test,.voice-refresh{border:1px solid #cdb7f5;background:white;border-radius:10px;padding:5px 8px;font-weight:900;cursor:pointer}
+.voice-test:active,.voice-refresh:active{transform:translateY(2px)}
+.voice-help{font-size:10px;line-height:1.3;color:#666;margin-top:6px}
 .voice{text-align:center;margin-top:12px;color:#2a7c39;font-weight:900;font-size:12px}
-.voice-tools{margin-top:12px;padding:11px;border:2px solid #cdb7f5;border-radius:17px;background:#faf7ff;text-align:center}
-.voice-tools-title{font-size:13px;font-weight:1000;color:#673ab7;margin-bottom:8px}
-.voice-btn{width:100%;border:2px solid #d9c8f3;background:#fff;border-radius:14px;padding:8px 10px;margin:4px 0;cursor:pointer;font-weight:900;color:#4c367f;transition:.12s;box-shadow:0 3px 0 #e7dcf7}
-.voice-btn:hover{transform:translateY(-1px);border-color:#a88adf}
-.voice-btn:active{transform:translateY(2px);box-shadow:0 1px 0 #e7dcf7}
-.voice-status{float:right;font-size:11px;font-weight:1000}
-.voice-status.ok{color:#2e8b45}.voice-status.warn{color:#d97706}
-.voice-note{font-size:10px;line-height:1.35;color:#6b6478;margin-top:6px}
 .right{background:#ffffffbb;border-radius:26px;padding:20px 14px;box-shadow:0 10px 30px #4f4b6820}
 .ribbon{margin:0 auto 18px;max-width:690px;background:linear-gradient(90deg,#6a20d2,#7b3ce2);color:#fff;text-align:center;font-weight:1000;font-size:24px;padding:11px 24px;border-radius:8px;box-shadow:0 5px 0 #5520a8}
 .cards{display:grid;grid-template-columns:repeat(5,minmax(130px,1fr));gap:12px}
 .card{background:#fff;border:2px solid #e8d4fb;border-radius:17px;overflow:hidden;box-shadow:0 5px 14px #00000010;cursor:pointer;transition:.15s}
 .card:hover{transform:translateY(-4px);box-shadow:0 12px 25px #0002}
 .card:active{transform:translateY(2px) scale(.985)}
-.pic{width:100%;aspect-ratio:291/428;object-fit:fill;object-position:center;display:block;background:transparent}
+.pic{width:100%;aspect-ratio:1.12;object-fit:cover;display:block;background:#eefaff}
 .ctext{text-align:center;padding:8px 5px 9px}.word{font-size:17px;font-weight:1000;color:#6b29d0}.bn{font-size:13px;font-weight:800;color:#1d8a43;margin-top:2px}
 .more-title{text-align:center;color:#7130d2;font-size:19px;font-weight:1000;margin:22px 0 13px;display:flex;align-items:center;gap:10px}.more-title:before,.more-title:after{content:"";height:2px;flex:1;border-top:2px dashed #d3a7ef}
 .great{display:block;width:max-content;max-width:90%;margin:15px auto 2px;padding:8px 20px;border:1px solid #f0b300;background:#fff6cf;border-radius:18px;font-weight:1000}
@@ -119,11 +120,19 @@ footer{position:relative;z-index:2;background:linear-gradient(180deg,#b8ed91,#71
 <div class="tip"><b>💡 Tip for Parents</b><br>Encourage your child to say the words out loud for better learning. ❤️</div>
 <div class="voice">🇮🇳 Indian English Voice</div>
 <div class="voice-tools">
-  <div class="voice-tools-title">🔊 Voice Language Setup</div>
-  <button class="voice-btn" id="enVoiceBtn">🇮🇳 English (India) <span class="voice-status" id="enVoiceStatus">Checking…</span></button>
-  <button class="voice-btn" id="bnVoiceBtn">🇮🇳 Bengali (India) <span class="voice-status" id="bnVoiceStatus">Checking…</span></button>
-  <button class="voice-btn" id="refreshVoiceBtn">🔄 Refresh Available Voices</button>
-  <div class="voice-note" id="voiceNote">The browser can use voices installed by Windows/browser. These buttons select en-IN or bn-IN when available.</div>
+  <div class="voice-tools-title">🎙️ Voice Setup</div>
+  <div class="voice-row">
+    <span>🇮🇳 English (India)</span>
+    <span id="enStatus" class="voice-status">Checking…</span>
+    <button class="voice-test" id="testEn">Test</button>
+  </div>
+  <div class="voice-row">
+    <span>🇮🇳 Bengali (India)</span>
+    <span id="bnStatus" class="voice-status">Checking…</span>
+    <button class="voice-test" id="testBn">Test</button>
+  </div>
+  <button class="voice-refresh" id="refreshVoices">🔄 Refresh Voices</button>
+  <div class="voice-help">If a voice is unavailable, install/enable the corresponding Windows/browser speech voice, then click Refresh Voices.</div>
 </div>
 </section>
 
@@ -136,14 +145,14 @@ footer{position:relative;z-index:2;background:linear-gradient(180deg,#b8ed91,#71
 </section>
 </main>
 <nav class="alphabet" id="alphabet"></nav>
-<footer><span class="footerpill">Made with ❤️ for Little Learners</span><span>🇮🇳 en-IN English • বাংলা bn-IN</span></footer>
+<footer><span class="footerpill">Made with ❤️ for Little Learners</span><span>🇮🇳 Indian English Voice</span></footer>
 
 <audio id="audio" preload="auto"></audio>
 <div class="modal" id="modal"><div class="modalbox"><button class="close" id="close">✕</button>
 <h2>🌈 How to Use Alphabet Explorer</h2>
 <ul>
 <li>Type a letter such as <b>A</b> and press <b>GO</b>. The page says <b>A is for Apple</b>.</li>
-<li>Tap a picture to hear the word followed by its Bengali meaning.</li>
+<li>Tap a picture to hear the English word.</li>
 <li>Use <b>Say All Words</b> to hear “Letter A has words like…” followed by the words one by one.</li>
 <li>Use the A–Z buttons to explore. The selected letter and its simple starter word are spoken automatically.</li>
 <li>Turn background music ON or OFF whenever you like.</li>
@@ -154,78 +163,91 @@ footer{position:relative;z-index:2;background:linear-gradient(180deg,#b8ed91,#71
 <script>
 const DATA=__DATA__;
 let current='A', voices=[], queue=[], speaking=false;
-let englishVoice=null, bengaliVoice=null;
 const $=id=>document.getElementById(id);
 
 function clickFx(){
-  try{const c=new AudioContext(),o=c.createOscillator(),g=c.createGain();o.frequency.value=620;o.type='sine';g.gain.setValueAtTime(.035,c.currentTime);g.gain.exponentialRampToValueAtTime(.001,c.currentTime+.06);o.connect(g);g.connect(c.destination);o.start();o.stop(c.currentTime+.06)}catch(e){}
+  try{
+    const c=new AudioContext(),o=c.createOscillator(),g=c.createGain();
+    o.frequency.value=620;o.type='sine';g.gain.setValueAtTime(.035,c.currentTime);
+    g.gain.exponentialRampToValueAtTime(.001,c.currentTime+.06);
+    o.connect(g);g.connect(c.destination);o.start();o.stop(c.currentTime+.06)
+  }catch(e){}
 }
-function findVoice(prefixes){
-  const list=voices||[];
-  for(const prefix of prefixes){
-    const exact=list.find(v=>(v.lang||'').toLowerCase()===prefix);
-    if(exact)return exact;
-    const partial=list.find(v=>(v.lang||'').toLowerCase().startsWith(prefix));
-    if(partial)return partial;
-  }
-  return null;
-}
-function updateVoiceStatus(){
-  englishVoice=findVoice(['en-in']);
-  bengaliVoice=findVoice(['bn-in','bn-bd']);
-  const en=$('enVoiceStatus'), bn=$('bnVoiceStatus');
-  if(en){en.textContent=englishVoice?'✓ Ready':'⚠ Not found';en.className='voice-status '+(englishVoice?'ok':'warn')}
-  if(bn){bn.textContent=bengaliVoice?'✓ Ready':'⚠ Not found';bn.className='voice-status '+(bengaliVoice?'ok':'warn')}
-}
+
 function loadVoices(){
   voices=('speechSynthesis' in window)?(speechSynthesis.getVoices()||[]):[];
   updateVoiceStatus();
 }
-if('speechSynthesis' in window){loadVoices();speechSynthesis.onvoiceschanged=loadVoices}
+if('speechSynthesis' in window){
+  loadVoices();
+  speechSynthesis.onvoiceschanged=loadVoices;
+}
 
-// Existing English speech path is intentionally kept for Say Letter and Say All Words.
-// Do not change this behavior: Say All Words remains English and speaks each word in sequence.
-function speak(text,done){
+function findVoice(lang){
+  const target=(lang||'').toLowerCase();
+  return voices.find(v=>(v.lang||'').toLowerCase()===target) ||
+         voices.find(v=>(v.lang||'').toLowerCase().startsWith(target));
+}
+
+function updateVoiceStatus(){
+  const en=findVoice('en-IN'), bn=findVoice('bn-IN');
+  if($('enStatus')){
+    $('enStatus').textContent=en?'✓ Available':'⚠ Not available';
+    $('enStatus').className='voice-status '+(en?'ok':'warn');
+  }
+  if($('bnStatus')){
+    $('bnStatus').textContent=bn?'✓ Available':'⚠ Not available';
+    $('bnStatus').className='voice-status '+(bn?'ok':'warn');
+  }
+}
+
+function speakItem(item,done){
   if(!('speechSynthesis' in window)){if(done)done();return}
+  const text=item.text||'';
+  const lang=item.lang||'en-IN';
   const u=new SpeechSynthesisUtterance(text);
-  u.rate=parseFloat($('speed').value);u.pitch=1.05;u.lang='en-IN';
-  const v=englishVoice || findVoice(['en-in','en-gb','en-us']);
-  if(v)u.voice=v;
-  u.onend=()=>done&&done();u.onerror=()=>done&&done();
+  u.rate=parseFloat($('speed').value);
+  u.pitch=1.05;
+  u.lang=lang;
+  const v=findVoice(lang);
+  if(v) u.voice=v;
+
+  // Do not silently fall back to US/UK English.
+  // The app requires Indian English for English speech and Indian Bengali for Bengali meaning.
+  if(lang==='en-IN' && !v){
+    updateVoiceStatus();
+    if(done)done();
+    return;
+  }
+  if(lang==='bn-IN' && !v){
+    updateVoiceStatus();
+    if(done)done();
+    return;
+  }
+
+  u.onend=()=>done&&done();
+  u.onerror=()=>done&&done();
   speechSynthesis.speak(u);
+}
+
+function speakEnglish(text,done){
+  speakItem({text:text,lang:'en-IN'},done);
 }
 
 function speakBengali(text,done){
-  if(!('speechSynthesis' in window)){if(done)done();return}
-  const u=new SpeechSynthesisUtterance(text);
-  u.rate=parseFloat($('speed').value);u.pitch=1.05;u.lang='bn-IN';
-  const v=bengaliVoice || findVoice(['bn-in','bn-bd']);
-  if(v)u.voice=v;
-  u.onend=()=>done&&done();u.onerror=()=>done&&done();
-  speechSynthesis.speak(u);
+  speakItem({text:text,lang:'bn-IN'},done);
 }
-function runBengaliQueue(items){
-  if(speaking) speechSynthesis.cancel();
-  queue=items.slice();speaking=true;
-  const next=()=>{
-    if(!queue.length){speaking=false;return}
-    speakBengali(queue.shift(),()=>setTimeout(next,350));
-  };
-  next();
-}
-function speakCardMeaning(word,bn){
-  // Spoken card behavior: English word first, then Bengali meaning.
-  // Example: "Goat. Goat মানে ছাগল."
-  return word+'. '+word+' মানে '+(bn||'');
-}
+
 function runQueue(items){
   if(speaking) speechSynthesis.cancel();
   queue=items.slice();speaking=true;
   const next=()=>{
     if(!queue.length){speaking=false;return}
-    speak(queue.shift(),()=>setTimeout(next,350));
-  };next();
+    speakItem(queue.shift(),()=>setTimeout(next,350));
+  };
+  next();
 }
+
 function choose(letter,autoSpeak=true){
   letter=(letter||'A').toUpperCase();
   if(!DATA.words[letter])letter='A';
@@ -238,54 +260,109 @@ function choose(letter,autoSpeak=true){
   const arr=DATA.words[letter]||[];
   $('cards').innerHTML=arr.slice(0,5).map(card).join('');
   $('morecards').innerHTML=arr.slice(5,10).map(card).join('');
-  if(autoSpeak) runQueue([letter+' is for '+DATA.starter[letter]]);
+  if(autoSpeak) runQueue([{text:letter+' is for '+DATA.starter[letter],lang:'en-IN'}]);
 }
+
 function card(x){
- return `<article class="card" data-word="${x.word.replace(/"/g,'&quot;')}" data-bn="${(x.bn||'').replace(/"/g,'&quot;')}"><img class="pic" src="${x.src}"><div class="ctext"><div class="word">${x.word}</div><div class="bn">${x.bn||''}</div></div></article>`;
+  const word=String(x.word||'').replace(/"/g,'&quot;');
+  const bn=String(x.bn||'').replace(/"/g,'&quot;');
+  return `<article class="card" data-word="${word}" data-bn="${bn}">
+    <img class="pic" src="${x.src}" alt="${word}">
+    <div class="ctext"><div class="word">${word}</div><div class="bn">${bn}</div></div>
+  </article>`;
 }
+
 function renderAlphabet(){
- $('alphabet').innerHTML='ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('').map(l=>`<button class="alpha ${l===current?'active':''}" data-l="${l}">${l}</button>`).join('');
- document.querySelectorAll('.alpha').forEach(b=>b.onclick=()=>{clickFx();choose(b.dataset.l,true)});
+  $('alphabet').innerHTML='ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('').map(l=>`<button class="alpha ${l===current?'active':''}" data-l="${l}">${l}</button>`).join('');
+  document.querySelectorAll('.alpha').forEach(b=>b.onclick=()=>{clickFx();choose(b.dataset.l,true)});
 }
-$('cards').addEventListener('click',e=>{const c=e.target.closest('.card');if(c){clickFx();runBengaliQueue([speakCardMeaning(c.dataset.word,c.dataset.bn)])}});
-$('morecards').addEventListener('click',e=>{const c=e.target.closest('.card');if(c){clickFx();runBengaliQueue([speakCardMeaning(c.dataset.word,c.dataset.bn)])}});
+
+function speakCard(word,bn){
+  // Card click: first say the English word with Indian English, then explain it in Bengali.
+  // Example: "Goat" -> "Goat. Goat মানে ছাগল."
+  const items=[];
+  if(word) items.push({text:word,lang:'en-IN'});
+  if(bn) items.push({text:word+' মানে '+bn,lang:'bn-IN'});
+  runQueue(items);
+}
+
+$('cards').addEventListener('click',e=>{
+  const c=e.target.closest('.card');
+  if(c){clickFx();speakCard(c.dataset.word,c.dataset.bn)}
+});
+$('morecards').addEventListener('click',e=>{
+  const c=e.target.closest('.card');
+  if(c){clickFx();speakCard(c.dataset.word,c.dataset.bn)}
+});
+
 $('go').onclick=()=>{clickFx();choose($('letter').value,true)};
-$('letter').addEventListener('keydown',e=>{if(e.key==='Enter'){$('go').click()}});
+$('letter').addEventListener('keydown',e=>{if(e.key==='Enter')$('go').click()});
 $('home').onclick=()=>{clickFx();choose('A',true);window.scrollTo({top:0,behavior:'smooth'})};
 $('how').onclick=()=>{$('modal').classList.add('show');clickFx()};
 $('close').onclick=()=>{$('modal').classList.remove('show');clickFx()};
 $('modal').onclick=e=>{if(e.target.id==='modal')$('modal').classList.remove('show')};
-$('sayletter').onclick=()=>{clickFx();runQueue([current+' is for '+DATA.starter[current]])};
-$('sayall').onclick=()=>{clickFx();const ws=DATA.words[current].map(x=>x.word);runQueue(['Letter '+current+' has words like...',...ws])};
-$('surprise').onclick=()=>{clickFx();const a='ABCDEFGHIJKLMNOPQRSTUVWXYZ';choose(a[Math.floor(Math.random()*26)],true)};
+
+// Keep Say Letter and Say All Words as English/Indian-English functions.
+$('sayletter').onclick=()=>{
+  clickFx();
+  runQueue([{text:current+' is for '+DATA.starter[current],lang:'en-IN'}]);
+};
+$('sayall').onclick=()=>{
+  clickFx();
+  const ws=DATA.words[current].map(x=>x.word);
+  runQueue([{text:'Letter '+current+' has words like...',lang:'en-IN'},...ws.map(w=>({text:w,lang:'en-IN'}))]);
+};
+
+$('surprise').onclick=()=>{
+  clickFx();
+  const a='ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+  choose(a[Math.floor(Math.random()*26)],true)
+};
+
+// Voice test / refresh controls.
+$('refreshVoices').onclick=()=>{
+  clickFx();
+  if('speechSynthesis' in window){
+    speechSynthesis.cancel();
+    loadVoices();
+    setTimeout(loadVoices,300);
+    setTimeout(loadVoices,1000);
+  }
+};
+$('testEn').onclick=()=>{
+  clickFx();
+  const v=findVoice('en-IN');
+  if(!v){
+    updateVoiceStatus();
+    alert('English (India) en-IN is not available. Install/enable an English (India) speech voice in Windows/browser, then click Refresh Voices.');
+    return;
+  }
+  speakItem({text:'Hello! This is the Indian English voice.',lang:'en-IN'});
+};
+$('testBn').onclick=()=>{
+  clickFx();
+  const v=findVoice('bn-IN');
+  if(!v){
+    updateVoiceStatus();
+    alert('Bengali (India) bn-IN is not available. Install/enable a Bengali speech voice in Windows/browser, then click Refresh Voices.');
+    return;
+  }
+  speakItem({text:'ছাগল মানে Goat।',lang:'bn-IN'});
+};
 
 const audio=$('audio'); audio.src=DATA.music;
 $('music').onclick=()=>{
- clickFx();
- const b=$('music');
- if(audio.paused){audio.loop=true;audio.volume=.18;audio.play().then(()=>b.classList.add('on')).catch(()=>{});}
- else{audio.pause();b.classList.remove('on')}
-};
-$('enVoiceBtn').onclick=()=>{
-  clickFx();loadVoices();
-  if(englishVoice){
-    const sample=new SpeechSynthesisUtterance('English India voice is ready.');
-    sample.lang='en-IN';sample.voice=englishVoice;sample.rate=.78;sample.pitch=1.05;speechSynthesis.cancel();speechSynthesis.speak(sample);
+  clickFx();
+  const b=$('music');
+  if(audio.paused){
+    audio.loop=true;audio.volume=.18;
+    audio.play().then(()=>b.classList.add('on')).catch(()=>{});
   } else {
-    alert('English (India) en-IN voice is not currently available in this browser. Install/enable an English (India) speech voice in your operating system, then click Refresh Available Voices.');
+    audio.pause();b.classList.remove('on')
   }
 };
-$('bnVoiceBtn').onclick=()=>{
-  clickFx();loadVoices();
-  if(bengaliVoice){
-    const sample=new SpeechSynthesisUtterance('বাংলা ভাষার কণ্ঠ প্রস্তুত।');
-    sample.lang='bn-IN';sample.voice=bengaliVoice;sample.rate=.78;sample.pitch=1.05;speechSynthesis.cancel();speechSynthesis.speak(sample);
-  } else {
-    alert('Bengali (India) bn-IN voice is not currently available in this browser. Install/enable a Bengali speech voice in your operating system, then click Refresh Available Voices.');
-  }
-};
-$('refreshVoiceBtn').onclick=()=>{clickFx();loadVoices();};
 
+renderAlphabet();choose('A',false);
 renderAlphabet();choose('A',false);
 </script>
 </body>
