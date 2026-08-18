@@ -146,8 +146,8 @@ button,input{font-family:inherit}
 .card{background:#fff;border:2px solid #e8d4fb;border-radius:17px;overflow:hidden;box-shadow:0 5px 14px #00000010;cursor:pointer;transition:.15s}
 .card:hover{transform:translateY(-4px);box-shadow:0 12px 25px #0002}
 .card:active{transform:translateY(2px) scale(.985)}
-.pic{width:100%;height:100%;object-fit:contain;object-position:center;display:block;border-radius:16px}
-.ctext{text-align:center;padding:8px 5px 9px}.word{font-size:17px;font-weight:1000;color:#6b29d0}.bn{font-size:13px;font-weight:800;color:#1d8a43;margin-top:2px}
+.pic{width:100%;aspect-ratio:291/428;height:auto;object-fit:contain;object-position:center;display:block;border-radius:16px;margin:0}
+.ctext{text-align:center;padding:8px 5px 10px;min-height:60px;display:flex;flex-direction:column;justify-content:center}.word{font-size:17px;font-weight:1000;color:#6b29d0}.bn{font-size:13px;font-weight:800;color:#1d8a43;margin-top:2px}
 .more-title{text-align:center;color:#7130d2;font-size:19px;font-weight:1000;margin:22px 0 13px;display:flex;align-items:center;gap:10px}.more-title:before,.more-title:after{content:"";height:2px;flex:1;border-top:2px dashed #d3a7ef}
 .great{display:block;width:max-content;max-width:90%;margin:15px auto 2px;padding:8px 20px;border:1px solid #f0b300;background:#fff6cf;border-radius:18px;font-weight:1000}
 .alphabet{position:relative;z-index:2;display:flex;justify-content:center;gap:7px;flex-wrap:wrap;padding:10px 2vw 14px}
@@ -186,11 +186,11 @@ footer{position:relative;z-index:2;background:linear-gradient(180deg,#b8ed91,#71
 <button class="say blue" id="sayall">🔊 <span>Say All Words</span><span>👧</span></button>
 <div class="speed"><h3>Speaking Speed</h3><div class="speedline"><span>🐢</span><input id="speed" type="range" min=".55" max=".90" value=".72" step=".05"><span>🐰</span></div><div class="speedlabels"><span>Slow</span><b>Normal</b><span>Fast</span></div></div>
 <div class="tip"><b>💡 Tip for Parents</b><br>Encourage your child to say the words out loud for better learning. ❤️</div>
-<div class="voice">🇮🇳 Indian English Voice</div>
+<div class="voice">🇮🇳 Bengali (India) Voice</div>
 <div class="voice-tools">
   <div class="voice-tools-title">🎙️ Voice Setup</div>
   <div class="voice-row">
-    <span>🇮🇳 English (India)</span>
+    <span>🇮🇳 Bengali (India) — All Speech</span>
     <span id="enStatus" class="voice-status">Checking…</span>
     <button class="voice-test" id="testEn">Test</button>
   </div>
@@ -200,7 +200,7 @@ footer{position:relative;z-index:2;background:linear-gradient(180deg,#b8ed91,#71
     <button class="voice-test" id="testBn">Test</button>
   </div>
   <button class="voice-refresh" id="refreshVoices">🔄 Refresh Voices</button>
-  <div class="voice-help">If a voice is unavailable, install/enable the corresponding Windows/browser speech voice, then click Refresh Voices.</div>
+  <div class="voice-help">If a voice is unavailable, install/enable the Bengali (India) Windows/browser speech voice, then click Refresh Voices.</div>
 </div>
 </section>
 
@@ -213,7 +213,7 @@ footer{position:relative;z-index:2;background:linear-gradient(180deg,#b8ed91,#71
 </section>
 </main>
 <nav class="alphabet" id="alphabet"></nav>
-<footer><span class="footerpill">Made with ❤️ for Little Learners</span><span>🇮🇳 Indian English Voice</span></footer>
+<footer><span class="footerpill">Made with ❤️ for Little Learners</span><span>🇮🇳 Bengali (India) Voice</span></footer>
 
 <audio id="audio" preload="auto"></audio>
 <div class="modal" id="modal"><div class="modalbox"><button class="close" id="close">✕</button>
@@ -258,7 +258,7 @@ function findVoice(lang){
 }
 
 function updateVoiceStatus(){
-  const en=findVoice('en-IN'), bn=findVoice('bn-IN');
+  const en=findVoice('bn-IN'), bn=findVoice('bn-IN');
   if($('enStatus')){
     $('enStatus').textContent=en?'✓ Available':'⚠ Not available';
     $('enStatus').className='voice-status '+(en?'ok':'warn');
@@ -272,7 +272,7 @@ function updateVoiceStatus(){
 function speakItem(item,done){
   if(!('speechSynthesis' in window)){if(done)done();return}
   const text=item.text||'';
-  const lang=item.lang||'en-IN';
+  const lang=item.lang||'bn-IN';
   const u=new SpeechSynthesisUtterance(text);
   u.rate=parseFloat($('speed').value);
   u.pitch=1.05;
@@ -281,7 +281,7 @@ function speakItem(item,done){
   if(v) u.voice=v;
 
   // Do not silently fall back to US/UK English.
-  // The app requires Indian English for English speech and Indian Bengali for Bengali meaning.
+  // The app requires Bengali (India) for English speech and Indian Bengali for Bengali meaning.
   if(lang==='en-IN' && !v){
     updateVoiceStatus();
     if(done)done();
@@ -299,7 +299,7 @@ function speakItem(item,done){
 }
 
 function speakEnglish(text,done){
-  speakItem({text:text,lang:'en-IN'},done);
+  speakItem({text:text,lang:'bn-IN'},done);
 }
 
 function speakBengali(text,done){
@@ -328,7 +328,7 @@ function choose(letter,autoSpeak=true){
   const arr=DATA.words[letter]||[];
   $('cards').innerHTML=arr.slice(0,5).map(card).join('');
   $('morecards').innerHTML=arr.slice(5,10).map(card).join('');
-  if(autoSpeak) runQueue([{text:letter+' is for '+DATA.starter[letter],lang:'en-IN'}]);
+  if(autoSpeak) runQueue([{text:letter+' is for '+DATA.starter[letter],lang:'bn-IN'}]);
 }
 
 function card(x){
@@ -346,12 +346,11 @@ function renderAlphabet(){
 }
 
 function speakCard(word,bn){
-  // Card click: first say the English word with Indian English, then explain it in Bengali.
-  // Example: "Goat" -> "Goat. Goat মানে ছাগল."
-  const items=[];
-  if(word) items.push({text:word,lang:'en-IN'});
-  if(bn) items.push({text:word+' মানে '+bn,lang:'bn-IN'});
-  runQueue(items);
+  const L=String(current||'A').toUpperCase();
+  const phrase=bn
+    ? `${L} for ${word}. ${word} মানে ${bn}.`
+    : `${L} for ${word}.`;
+  runQueue([{text:phrase,lang:'bn-IN'}]);
 }
 
 $('cards').addEventListener('click',e=>{
@@ -373,12 +372,12 @@ $('modal').onclick=e=>{if(e.target.id==='modal')$('modal').classList.remove('sho
 // Keep Say Letter and Say All Words as English/Indian-English functions.
 $('sayletter').onclick=()=>{
   clickFx();
-  runQueue([{text:current+' is for '+DATA.starter[current],lang:'en-IN'}]);
+  runQueue([{text:current+' is for '+DATA.starter[current],lang:'bn-IN'}]);
 };
 $('sayall').onclick=()=>{
   clickFx();
   const ws=DATA.words[current].map(x=>x.word);
-  runQueue([{text:'Letter '+current+' has words like...',lang:'en-IN'},...ws.map(w=>({text:w,lang:'en-IN'}))]);
+  runQueue([{text:'Letter '+current+' has words like...',lang:'bn-IN'},...ws.map(w=>({text:w,lang:'bn-IN'}))]);
 };
 
 $('surprise').onclick=()=>{
@@ -399,13 +398,13 @@ $('refreshVoices').onclick=()=>{
 };
 $('testEn').onclick=()=>{
   clickFx();
-  const v=findVoice('en-IN');
+  const v=findVoice('bn-IN');
   if(!v){
     updateVoiceStatus();
-    alert('English (India) en-IN is not available. Install/enable an English (India) speech voice in Windows/browser, then click Refresh Voices.');
+    alert('Bengali (India) bn-IN is not available. Enable/install a Bengali (India) speech voice, then click Refresh Voices.');
     return;
   }
-  speakItem({text:'Hello! This is the Indian English voice.',lang:'en-IN'});
+  speakItem({text:'Hello! This app uses the Bengali India voice for English and Bengali words.',lang:'bn-IN'});
 };
 $('testBn').onclick=()=>{
   clickFx();
