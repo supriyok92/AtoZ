@@ -377,8 +377,8 @@ function speakCard(word,bn){
   const bengali=bn?`মানে ${bn}।`:'';
 
   runQueue([
-    {text:english1,lang:'en-IN',voiceName:'Meera',pauseAfter:120},
-    {text:english2,lang:'en-IN',voiceName:'Meera',pauseAfter:50},
+    {text:english1,lang:'en-IN',voiceName:'Meera',pauseAfter:80},
+    {text:english2,lang:'en-IN',voiceName:'Meera',pauseAfter:20},
     ...(bengali?[{text:bengali,lang:'bn-IN'}]:[])
   ]);
 }
