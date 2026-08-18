@@ -146,7 +146,7 @@ button,input{font-family:inherit}
 .card{background:#fff;border:2px solid #e8d4fb;border-radius:17px;overflow:hidden;box-shadow:0 5px 14px #00000010;cursor:pointer;transition:.15s}
 .card:hover{transform:translateY(-4px);box-shadow:0 12px 25px #0002}
 .card:active{transform:translateY(2px) scale(.985)}
-.pic{width:100%;aspect-ratio:291/428;height:auto;object-fit:contain;object-position:center;display:block;border-radius:16px;margin:0}
+.pic{width:100%;aspect-ratio:291/428;height:auto;object-fit:contain;object-position:center;display:block;margin:0;border-radius:16px}
 .ctext{text-align:center;padding:8px 5px 10px;min-height:60px;display:flex;flex-direction:column;justify-content:center}.word{font-size:17px;font-weight:1000;color:#6b29d0}.bn{font-size:13px;font-weight:800;color:#1d8a43;margin-top:2px}
 .more-title{text-align:center;color:#7130d2;font-size:19px;font-weight:1000;margin:22px 0 13px;display:flex;align-items:center;gap:10px}.more-title:before,.more-title:after{content:"";height:2px;flex:1;border-top:2px dashed #d3a7ef}
 .great{display:block;width:max-content;max-width:90%;margin:15px auto 2px;padding:8px 20px;border:1px solid #f0b300;background:#fff6cf;border-radius:18px;font-weight:1000}
@@ -307,13 +307,38 @@ function speakBengali(text,done){
 }
 
 function runQueue(items){
-  if(speaking) speechSynthesis.cancel();
-  queue=items.slice();speaking=true;
-  const next=()=>{
-    if(!queue.length){speaking=false;return}
-    speakItem(queue.shift(),()=>setTimeout(next,350));
-  };
-  next();
+  if(!('speechSynthesis' in window)) return;
+  speechSynthesis.cancel();
+  const q=(items||[]).slice();
+  let i=0;
+
+  function next(){
+    if(i>=q.length) return;
+    const item=q[i++];
+    const u=new SpeechSynthesisUtterance(item.text||'');
+    u.lang=item.lang||'en-IN';
+    u.rate=parseFloat($('speed')?.value||'0.82');
+    u.pitch=1.03;
+
+    const voices=speechSynthesis.getVoices();
+    let v=null;
+    if(item.voiceName){
+      const wanted=item.voiceName.toLowerCase();
+      v=voices.find(x=>x.name.toLowerCase().includes(wanted));
+    }
+    if(!v){
+      v=voices.find(x=>(x.lang||'').toLowerCase()===(item.lang||'').toLowerCase());
+    }
+    if(v) u.voice=v;
+
+    const pause=Number(item.pauseAfter||0);
+    u.onend=()=>setTimeout(next,pause);
+    u.onerror=()=>setTimeout(next,pause);
+    speechSynthesis.speak(u);
+  }
+
+  if(speechSynthesis.getVoices().length) next();
+  else setTimeout(next,150);
 }
 
 function choose(letter,autoSpeak=true){
@@ -347,10 +372,15 @@ function renderAlphabet(){
 
 function speakCard(word,bn){
   const L=String(current||'A').toUpperCase();
-  const phrase=bn
-    ? `${L} for ${word}. ${word} মানে ${bn}.`
-    : `${L} for ${word}.`;
-  runQueue([{text:phrase,lang:'bn-IN'}]);
+  const english1=`${L} for ${word}.`;
+  const english2=`${word}`;
+  const bengali=bn?`মানে ${bn}।`:'';
+
+  runQueue([
+    {text:english1,lang:'en-IN',voiceName:'Meera',pauseAfter:350},
+    {text:english2,lang:'en-IN',voiceName:'Meera',pauseAfter:120},
+    ...(bengali?[{text:bengali,lang:'bn-IN'}]:[])
+  ]);
 }
 
 $('cards').addEventListener('click',e=>{
